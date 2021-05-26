@@ -24,7 +24,7 @@ let visitDoctor = () => {
   console.log(`${patient.nom} a ${patient.argent}€ actuellement`);
   docteur.faireSortir(patient, pharmacie);
   pharmacien.DemanderPayement(patient);
-
+  console.log("------------------");
   i--;
   if (i == -1) {
     clearInterval(interval1);
