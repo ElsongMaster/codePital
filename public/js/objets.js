@@ -39,12 +39,4 @@ let docteur = new Doctor("Strange", 0, cabinet, chat);
 let cimetiere = new Lieu("cimetiere", []);
 let pharmacien = new Pharmacien("King", 0, pharmacie);
 
-export {
-  docteur,
-  cabinet,
-  salleAttente,
-  pharmacie,
-  pharmacien,
-  cimetiere,
-  chat,
-};
+export { docteur, salleAttente, pharmacie, pharmacien, cimetiere, chat };
