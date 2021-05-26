@@ -53,15 +53,14 @@ class Patient extends Personne {
 }
 
 class Doctor extends Personne {
-  constructor(nom, argent, cabinet, chat) {
-    super(nom, argent);
+  constructor(nom, argent, lieu, chat) {
+    super(nom, argent, lieu);
     let diagno1 = { maladie: "mal indenté", traitement: "ctrl+maj+f" };
     let diagno2 = { maladie: "unsave", traitement: "saveOnFOcusChange" };
     let diagno3 = { maladie: "404", traitement: "CheckLinkRelation" };
     let diagno4 = { maladie: "azmatique", traitement: "Ventoline" };
     let diagno5 = { maladie: "syntaxError", traitement: "f12+doc" };
     this.diagnostiques = [diagno1, diagno2, diagno3, diagno4, diagno5];
-    this.lieu = cabinet;
     this.prixConsultation = 50;
     this.monChat = chat;
   }
@@ -130,3 +129,5 @@ class Animal {
     this.cri = cri;
   }
 }
+
+export { Doctor, Patient, Animal, Lieu };
