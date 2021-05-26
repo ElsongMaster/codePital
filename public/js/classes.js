@@ -19,8 +19,8 @@ class Personne {
 }
 
 class Patient extends Personne {
-  constructor(nom, argent, maladie, etatSante) {
-    super(nom, argent);
+  constructor(nom, argent, lieu, maladie, etatSante) {
+    super(nom, argent, lieu);
     this.maladie = maladie;
     this.etatSante = etatSante;
     this.poche = [];
@@ -30,11 +30,11 @@ class Patient extends Personne {
   seDeplacer(lieu) {
     super.seDeplacer(lieu);
   }
-  payer(traitement) {
+  payer(prix) {
     let aPaye = false;
-    if (this.argent > traitement.prix) {
-      this.argent -= traitement.prix;
-      this.prendre(produit);
+    if (this.argent > prix) {
+      this.argent -= prix;
+      // this.prendre(produit);
       aPaye = true;
     }
     return aPaye;
@@ -49,6 +49,7 @@ class Patient extends Personne {
       this.etatSante = "soigné";
       this.traitement = null;
     }
+    console.log(`${this.nom} est ${this.etatSante}`);
   }
 }
 
@@ -59,37 +60,51 @@ class Doctor extends Personne {
     let diagno2 = { maladie: "unsave", traitement: "saveOnFOcusChange" };
     let diagno3 = { maladie: "404", traitement: "CheckLinkRelation" };
     let diagno4 = { maladie: "azmatique", traitement: "Ventoline" };
-    let diagno5 = { maladie: "syntaxError", traitement: "f12+doc" };
+    let diagno5 = { maladie: "SyntaxError", traitement: "f12+doc" };
     this.diagnostiques = [diagno1, diagno2, diagno3, diagno4, diagno5];
     this.prixConsultation = 50;
     this.monChat = chat;
   }
-  possibleDEntrer(patient) {
-    return (
-      this.lieu.length == 2 &&
+  FaireEntrer(patient) {
+    let possibleDentrer =
+      this.lieu.personnes.length == 2 &&
       this.lieu.personnes.includes(this) &&
-      this.lieu.personnes.includes(this.monChat)
-    );
+      this.lieu.personnes.includes(this.monChat);
+
+    if (possibleDentrer) {
+      patient.seDeplacer(this.lieu);
+      console.log(`${patient.nom} est entré au cabinet`);
+    } else {
+      console.log(
+        `monsieur ${patient.nom} Veuillez patienter  dans la salle d'attente je suis encore occuper`
+      );
+    }
   }
   fairePayer(patient) {
     let aPayerLaConsult = patient.payer(this.prixConsultation);
     if (aPayerLaConsult) {
       this.argent += this.prixConsultation;
+      console.log(`${patient.nom} à payé le docteur`);
     } else {
-      console.log("Je vous envoi la facture à la maison");
+      console.log(
+        "Si vous n'avez pas assez sur vous je vous envoi la facture à la maison"
+      );
     }
   }
   faireSortir(patient, lieu) {
+    console.log(`${patient.nom} a quité le cabinet`);
     patient.seDeplacer(lieu);
+    console.log(`${patient.nom} est allé à la ${lieu.nom}`);
   }
 
   diagnostique(patient) {
     let diagnoPatient;
     this.diagnostiques.forEach((elt) => {
       if (elt.maladie === patient.maladie) {
-        diagnoPatient = elt.traitement;
+        patient.traitement = elt.traitement;
       }
     });
+    console.log(`le traitement de ${patient.nom} est ${patient.traitement}`);
     return diagnoPatient;
   }
 }
@@ -104,11 +119,11 @@ class Lieu {
 class Pharmacie extends Lieu {
   constructor(nom, personnes) {
     super(nom, personnes);
-    let traitement1 = { traitement: "ctrl+maj+f", prix: 60 };
-    let traitement2 = { traitement: "saveOnFocusChange", prix: 100 };
-    let traitement3 = { traitement: "CheckLinkRelation", prix: 35 };
-    let traitement4 = { traitement: "Ventoline", prix: 40 };
-    let traitement5 = { traitement: "f12+doc", prix: 20 };
+    let traitement1 = { nomTraitement: "ctrl+maj+f", prix: 60 };
+    let traitement2 = { nomTraitement: "saveOnFocusChange", prix: 100 };
+    let traitement3 = { nomTraitement: "CheckLinkRelation", prix: 35 };
+    let traitement4 = { nomTraitement: "Ventoline", prix: 40 };
+    let traitement5 = { nomTraitement: "f12+doc", prix: 20 };
 
     this.traitements = [
       traitement1,
@@ -120,14 +135,50 @@ class Pharmacie extends Lieu {
     ];
   }
 }
+class Pharmacien extends Personne {
+  constructor(nom, argent, lieu) {
+    super(nom, argent, lieu);
+  }
 
+  DemanderPayement(client, cimetiere) {
+    this.lieu.traitements.forEach((medicament) => {
+      if (medicament.nomTraitement === client.traitement) {
+        console.log(`le traitement de ${client.nom} coûte ${medicament.prix}€`);
+        if (!client.payer(medicament.prix)) {
+          console.log(
+            `${client.nom} n'as pas assez d'argent pour payer le traitement`
+          );
+          client.etatSante = "mort";
+          console.log(
+            `${client.nom} est ${client.etatSante}, donc il est au cimetiere`
+          );
+          client.lieu.personnes.splice(
+            client.lieu.personnes.indexOf(client),
+            1
+          );
+          cimetiere.personnes.push(client);
+          client.lieu = cimetiere;
+        } else {
+          console.log(`${client.nom} vient de payer son traitement`);
+          client.seSoigner();
+        }
+      }
+    });
+  }
+}
 class Animal {
-  constructor(nom, type, genre, cri) {
+  constructor(nom, type, genre, cri, lieu) {
     this.nom = nom;
     this.type = type;
     this.genre = genre;
     this.cri = cri;
+    this.lieu = lieu;
+    this.lieu.personnes.push(this);
+  }
+
+  criAnimal() {
+    console.log(this.cri);
   }
 }
 
-export { Doctor, Patient, Animal, Lieu };
+export { Doctor, Patient, Animal, Lieu, Pharmacie, Pharmacien };
