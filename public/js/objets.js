@@ -14,7 +14,7 @@ let patient1 = new Patient(
   "mal indenté",
   "malade"
 );
-let patient2 = new Patient("Optimus", 210, salleAttente, "unsave", "malade");
+let patient2 = new Patient("Optimus", 160, salleAttente, "unsave", "malade");
 let patient3 = new Patient("Goku", 190, salleAttente, "404", "malade");
 let patient4 = new Patient(
   "Kountakinté",
@@ -23,13 +23,9 @@ let patient4 = new Patient(
   "azmatique",
   "malade"
 );
-let patient5 = new Patient(
-  "Arnold",
-  170,
-  salleAttente,
-  "SyntaxError",
-  "malade"
-);
+let patient5 = new Patient("Arnold", 70, salleAttente, "SyntaxError", "malade");
+let patient6 = new Patient("Albert", 70, salleAttente, "SyntaxError", "malade");
+let patient7 = new Patient("Paul", 160, salleAttente, "unsave", "malade");
 let tabPatients = [patient1, patient2, patient3, patient4, patient5];
 let cabinet = new Lieu("Cabinet", []);
 let chat = new Animal("Simba", "félin", "Animal de compagnie", "Miau", cabinet);

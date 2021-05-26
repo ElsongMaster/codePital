@@ -4,6 +4,7 @@ import {
   pharmacie,
   pharmacien,
   chat,
+  cimetiere,
 } from "./objets.js";
 
 let chatCri = () => {
@@ -23,7 +24,7 @@ let visitDoctor = () => {
   docteur.fairePayer(patient);
   console.log(`${patient.nom} a ${patient.argent}€ actuellement`);
   docteur.faireSortir(patient, pharmacie);
-  pharmacien.DemanderPayement(patient);
+  pharmacien.DemanderPayement(patient, cimetiere);
   console.log("------------------");
   i--;
   if (i == -1) {

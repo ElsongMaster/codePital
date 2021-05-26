@@ -57,7 +57,7 @@ class Doctor extends Personne {
   constructor(nom, argent, lieu, chat) {
     super(nom, argent, lieu);
     let diagno1 = { maladie: "mal indenté", traitement: "ctrl+maj+f" };
-    let diagno2 = { maladie: "unsave", traitement: "saveOnFOcusChange" };
+    let diagno2 = { maladie: "unsave", traitement: "saveOnFocusChange" };
     let diagno3 = { maladie: "404", traitement: "CheckLinkRelation" };
     let diagno4 = { maladie: "azmatique", traitement: "Ventoline" };
     let diagno5 = { maladie: "SyntaxError", traitement: "f12+doc" };
